@@ -1,0 +1,18 @@
+#clean all "__pycache__"
+find . -type d -name "__pycache__" -exec rm -r {} +
+
+
+#После запуска:
+docker-compose exec fastapi python init_db.py
+
+Открой http://localhost:5151
+Введи:
+Email: admin@wozu.com
+Пароль: admin123
+Нажми Add New Server:
+Name: WorkNearDB
+Connection:
+Host: db
+Port: 5432
+Username: postgres
+Password: postgres

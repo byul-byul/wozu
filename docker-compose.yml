@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  fastapi:
+    build: ./fastapi
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./fastapi:/fastapi
+    working_dir: /fastapi
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  db:
+    image: postgres:15
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "5151:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@wozu.com
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    depends_on:
+      - db
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+
+volumes:
+  postgres_data:
+  pgadmin_data:
