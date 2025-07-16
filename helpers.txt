@@ -10,7 +10,7 @@ docker-compose exec fastapi python init_db.py
 Email: admin@wozu.com
 Пароль: admin123
 Нажми Add New Server:
-Name: WorkNearDB
+Name: wozu_db
 Connection:
 Host: db
 Port: 5432

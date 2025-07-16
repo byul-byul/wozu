@@ -6,9 +6,10 @@
 
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
-from app.auth import crud, security, email_utils
+from app.auth import crud, security
 from app.users.models import User
 from app.auth.schemas import RegisterRequest, LoginRequest
+from app.core.email_service import send_verification_email
 
 async def register_user(db: AsyncSession, data: RegisterRequest) -> None:
     existing_user = await crud.get_user_by_email(db, data.email)
@@ -22,7 +23,10 @@ async def register_user(db: AsyncSession, data: RegisterRequest) -> None:
     await db.refresh(user)
 
     token_obj = await crud.create_email_token(db, user.id)
-    email_utils.send_verification_email(user.email, token_obj.token)
+
+    # отправка письма через Brevo API
+    await send_verification_email(user.email, token_obj.token)
+
 
 async def login_user(db: AsyncSession, data: LoginRequest) -> str:
     user = await crud.get_user_by_email(db, data.email)
