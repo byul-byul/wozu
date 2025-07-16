@@ -10,6 +10,7 @@ from app.auth.models import EmailToken
 from app.users.models import User
 from datetime import datetime
 import uuid
+from sqlalchemy.orm import joinedload
 
 async def get_user_by_email(db: AsyncSession, email: str) -> User | None:
     result = await db.execute(select(User).where(User.email == email))
@@ -25,7 +26,9 @@ async def create_email_token(db: AsyncSession, user_id: int) -> EmailToken:
 
 async def get_email_token(db: AsyncSession, token: str) -> EmailToken | None:
     result = await db.execute(
-        select(EmailToken).where(EmailToken.token == token, EmailToken.is_used == False)
+        select(EmailToken)
+        .where(EmailToken.token == token, EmailToken.is_used == False)
+        .options(joinedload(EmailToken.user))  # ← подтягиваем user заранее
     )
     return result.scalar_one_or_none()
 

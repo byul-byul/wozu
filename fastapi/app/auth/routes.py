@@ -10,6 +10,8 @@ from fastapi.responses import JSONResponse
 
 from app.auth import schemas, services, crud
 from app.core.db import get_async_session
+from sqlalchemy import select
+from app.users.models import User
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -41,7 +43,11 @@ async def verify_email(
     if email_token.expires_at and email_token.expires_at < datetime.utcnow():
         return JSONResponse(status_code=400, content={"message": "Token expired"})
 
-    user = email_token.user
+    # ⛔️ нельзя использовать email_token.user (lazy loading)
+    # ✅ загружаем пользователя вручную
+    result = await db.execute(select(User).where(User.id == email_token.user_id))
+    user = result.scalar_one_or_none()
+
     if not user:
         return JSONResponse(status_code=404, content={"message": "User not found"})
 

@@ -10,6 +10,7 @@ import logging
 
 BREVO_API_KEY = os.getenv("BREVO_API_KEY")
 BREVO_API_URL = "https://api.brevo.com/v3/smtp/email"
+BASE_URL = os.getenv("EMAIL_VERIFICATION_BASE_URL")  # ← берём из .env актуальный base URL
 
 async def send_verification_email(to_email: str, token: str):
     data = {
@@ -19,7 +20,7 @@ async def send_verification_email(to_email: str, token: str):
         "htmlContent": f"""
         <p>Hi!</p>
         <p>Please verify your email by clicking the link below:</p>
-        <a href="https://wozu.app/verify-email?token={token}">Verify Email</a>
+        <a href="{BASE_URL}/auth/verify-email?token={token}">Verify Email</a>  <!-- добавлен /auth -->
         """,
     }
     headers = {
