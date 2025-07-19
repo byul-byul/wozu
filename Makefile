@@ -24,7 +24,7 @@ down:
 # ─────────────────────────────────────────────────────────────
 
 clean: down
-	bash -c "shopt -s globstar && sudo rm -rf fastapi/**/__pycache__ fastapi/**/*.pyc"
+	bash -c "shopt -s globstar && rm -rf fastapi/**/__pycache__ fastapi/**/*.pyc"
 
 fclean: clean
 	docker volume prune -f
