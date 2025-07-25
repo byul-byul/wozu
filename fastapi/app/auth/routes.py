@@ -51,7 +51,7 @@ async def verify_email(
     if not user:
         return JSONResponse(status_code=404, content={"message": "User not found"})
 
-    user.is_active = True
+    user.is_email_verified = True
     email_token.is_used = True
 
     await db.commit()

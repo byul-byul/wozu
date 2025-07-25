@@ -1,19 +1,32 @@
-# app/users/models.py
+# fastapi/app/users/models.py
 
-# Why it's needed: Defines the User model, which is a core database table used across the app.
-# Why it's named that way: Follows common convention — models.py holds SQLAlchemy models related to this module.
-# What it does: Declares the User table with fields like email, password hash, and active status.
+# Why it's needed: Defines the User model, used for authentication and user data across the app.
+# Why it's named that way: models.py holds SQLAlchemy models related to the users module.
+# What it does: Declares the User table with fields like email, phone, password hash, verification status.
 
-from sqlalchemy import Column, Integer, String, Boolean
+from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime
 from sqlalchemy.orm import relationship
-from app.core.db import Base
+from app.core.models import BaseDBModel
 
-class User(Base):
+class User(BaseDBModel):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
     email = Column(String, unique=True, index=True, nullable=False)
+    phone = Column(String, unique=True, index=True, nullable=False)
     hashed_password = Column(String, nullable=False)
-    is_active = Column(Boolean, default=False, nullable=False)
+
+    full_name = Column(String, nullable=True)
+    nick_name = Column(String, nullable=True)
+    bio = Column(String, nullable=True)
+    location = Column(String, nullable=True)
+    birth_date = Column(Date, nullable=True)
+    gender = Column(String, nullable=True)
+    last_login_at = Column(DateTime, nullable=True)
+
+    photo_url = Column(String, nullable=True)
+
+    is_email_verified = Column(Boolean, default=False, nullable=False)
+    is_phone_verified = Column(Boolean, default=False, nullable=False)
 
     email_tokens = relationship("EmailToken", back_populates="user", cascade="all, delete")

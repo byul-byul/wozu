@@ -17,7 +17,7 @@ async def register_user(db: AsyncSession, data: RegisterRequest) -> None:
         raise HTTPException(status_code=400, detail="Email already registered")
     
     hashed_password = security.hash_password(data.password)
-    user = User(email=data.email, hashed_password=hashed_password)
+    user = User(email=data.email, phone=data.phone, hashed_password=hashed_password)
     db.add(user)
     await db.commit()
     await db.refresh(user)
@@ -33,4 +33,6 @@ async def login_user(db: AsyncSession, data: LoginRequest) -> str:
     if not user or not security.verify_password(data.password, user.hashed_password):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
-    return security.create_access_token(user.id)
+    # return security.create_access_token(user.id)
+    return security.create_access_token({"sub": str(user.id)})
+

@@ -4,7 +4,7 @@
 # 🚀 Basic docker-compose commands
 # ─────────────────────────────────────────────────────────────
 
-run:
+up:
 	docker-compose up
 
 build:
@@ -24,7 +24,7 @@ down:
 # ─────────────────────────────────────────────────────────────
 
 clean: down
-	bash -c "shopt -s globstar && rm -rf fastapi/**/__pycache__ fastapi/**/*.pyc"
+	bash -c "shopt -s globstar && sudo rm -rf fastapi/**/__pycache__ fastapi/**/*.pyc"
 
 fclean: clean
 	docker volume prune -f
@@ -43,13 +43,21 @@ psql:
 	docker-compose exec db psql -U postgres
 
 # ─────────────────────────────────────────────────────────────
-# 🔄 DB & Alembic
+# 🧱 Alembic (DB Migrations)
 # ─────────────────────────────────────────────────────────────
 
 migrate:
 	docker-compose exec fastapi alembic upgrade head
 
+revision:
+	docker-compose exec fastapi alembic revision --autogenerate -m "$(msg)"
+
+downgrade:
+	docker-compose exec fastapi alembic downgrade -1
+
 reset-db:
+	@echo "⚠ WARNING: This will delete DB volumes. Press CTRL+C to abort..."
+	sleep 30
 	docker-compose down -v
 	docker-compose up --build
 

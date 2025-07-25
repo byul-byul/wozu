@@ -7,16 +7,15 @@
 from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from datetime import datetime
-from app.core.db import Base
+from app.core.models import BaseDBModel
 
-class EmailToken(Base):
+class EmailToken(BaseDBModel):
     __tablename__ = "email_tokens"
 
     id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     token = Column(String, unique=True, nullable=False, index=True)
     is_used = Column(Boolean, default=False)
-    created_at = Column(DateTime, default=datetime.utcnow)
     expires_at = Column(DateTime)  # новое поле
 
     user = relationship("User", back_populates="email_tokens")
