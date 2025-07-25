@@ -7,7 +7,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select, update
 from app.auth.models import EmailToken
-from app.users.models import User
+from app.user.models import User
 from datetime import datetime
 import uuid
 from sqlalchemy.orm import joinedload

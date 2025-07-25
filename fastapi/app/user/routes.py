@@ -1,18 +1,18 @@
-# fastapi/app/users/routes.py
+# fastapi/app/user/routes.py
 
 # зачем нужен: предоставляет маршруты для получения и обновления профиля
 # почему так называется: routes.py — стандартное место для описания эндпоинтов
-# что делает: описывает API /users/me и /users/stats
+# что делает: описывает API /user/me и /user/stats
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.users import crud
-from app.users.schemas import UserPublic, UserUpdate
-from app.users.models import User
+from app.user import crud
+from app.user.schemas import UserPublic, UserUpdate
+from app.user.models import User
 from app.core.db import get_async_session
 from app.auth.dependencies import get_current_user  # ← обновлено под HTTPBearer
 
-router = APIRouter(prefix="/users", tags=["users"])
+router = APIRouter(prefix="/user", tags=["user"])
 
 # получить текущий профиль
 @router.get("/me", response_model=UserPublic)

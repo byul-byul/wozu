@@ -8,8 +8,8 @@ from fastapi import Depends, HTTPException, status
 from jose import JWTError, jwt
 from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db import get_async_session
-from app.users import crud
-from app.users.models import User
+from app.user import crud
+from app.user.models import User
 from app.auth.security import SECRET_KEY, ALGORITHM
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 

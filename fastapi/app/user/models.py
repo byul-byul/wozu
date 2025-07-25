@@ -1,7 +1,7 @@
-# fastapi/app/users/models.py
+# fastapi/app/user/models.py
 
 # Why it's needed: Defines the User model, used for authentication and user data across the app.
-# Why it's named that way: models.py holds SQLAlchemy models related to the users module.
+# Why it's named that way: models.py holds SQLAlchemy models related to the user module.
 # What it does: Declares the User table with fields like email, phone, password hash, verification status.
 
 from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime

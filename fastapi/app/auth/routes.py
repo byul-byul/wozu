@@ -11,7 +11,7 @@ from fastapi.responses import JSONResponse
 from app.auth import schemas, services, crud
 from app.core.db import get_async_session
 from sqlalchemy import select
-from app.users.models import User
+from app.user.models import User
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 

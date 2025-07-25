@@ -7,7 +7,7 @@
 from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi import HTTPException, status
 from app.auth import crud, security
-from app.users.models import User
+from app.user.models import User
 from app.auth.schemas import RegisterRequest, LoginRequest
 from app.core.email_service import send_verification_email
 

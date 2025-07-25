@@ -1,4 +1,4 @@
-# fastapi/app/users/crud.py
+# fastapi/app/user/crud.py
 
 # зачем нужен: работает с БД — получает и обновляет пользователей
 # почему так называется: crud.py — общепринятое имя для операций Create/Read/Update/Delete
@@ -6,8 +6,8 @@
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from app.users.models import User
-from app.users.schemas import UserUpdate
+from app.user.models import User
+from app.user.schemas import UserUpdate
 
 # получить пользователя по ID
 async def get_user_by_id(db: AsyncSession, user_id: int) -> User | None:

@@ -1,4 +1,4 @@
-# fastapi/app/users/schemas.py
+# fastapi/app/user/schemas.py
 
 # зачем нужен: описывает структуры данных для пользователей (вход/выход)
 # почему так называется: schemas.py — стандарт для Pydantic-схем
@@ -20,7 +20,7 @@ class UserBase(BaseModel):
     gender: Optional[str]
     photo_url: Optional[str]
 
-# ответ клиенту (например, в /users/me)
+# ответ клиенту (например, в /user/me)
 # включает базовые поля + флаги верификации и последний вход
 class UserPublic(UserBase):
     is_email_verified: bool
