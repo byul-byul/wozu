@@ -12,6 +12,7 @@ from app.auth import schemas, services, crud
 from app.core.db import get_async_session
 from sqlalchemy import select
 from app.user.models import User
+from fastapi.security import OAuth2PasswordRequestForm
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -25,9 +26,10 @@ async def register(
 
 @router.post("/login", response_model=schemas.TokenResponse)
 async def login(
-    data: schemas.LoginRequest,
-    db: AsyncSession = Depends(get_async_session)
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: AsyncSession = Depends(get_async_session),
 ):
+    data = schemas.LoginRequest(email=form_data.username, password=form_data.password)
     token = await services.login_user(db, data)
     return {"access_token": token}
 
