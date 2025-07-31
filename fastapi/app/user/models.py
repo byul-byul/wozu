@@ -4,9 +4,11 @@
 # Why it's named that way: models.py holds SQLAlchemy models related to the user module.
 # What it does: Declares the User table with fields like email, phone, password hash, verification status.
 
-from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Boolean, Date, DateTime, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column, Mapped
 from app.core.models import BaseDBModel
+from typing import Optional
+from uuid import UUID
 
 class User(BaseDBModel):
     __tablename__ = "users"
@@ -25,6 +27,8 @@ class User(BaseDBModel):
     last_login_at = Column(DateTime, nullable=True)
 
     photo_url = Column(String, nullable=True)
+    company_id: Mapped[Optional[UUID]] = mapped_column(ForeignKey("companies.id"), nullable=True)
+    company: Mapped[Optional["Company"]] = relationship(back_populates="users")
 
     is_email_verified = Column(Boolean, default=False, nullable=False)
     is_phone_verified = Column(Boolean, default=False, nullable=False)

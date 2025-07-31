@@ -6,6 +6,7 @@ load_dotenv(".env")
 from logging.config import fileConfig
 from alembic import context
 from app.user.models import User  # подключена модель User
+from app.company.models import Company
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

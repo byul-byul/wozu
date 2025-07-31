@@ -8,13 +8,13 @@ up:
 	docker-compose up
 
 build:
-	docker-compose up --build
+	docker-compose build
 
 detach:
 	docker-compose up -d
 
-bdetach:
-	docker-compose up -d --build
+bup:
+	docker-compose up --build
 
 down:
 	docker-compose down
