@@ -11,8 +11,6 @@ from app.core.models import BaseDBModel
 class Vacancy(BaseDBModel):
     __tablename__ = "vacancies"
 
-    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
-
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
 

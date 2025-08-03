@@ -10,6 +10,7 @@ from app.core.db import Base
 class BaseDBModel(Base):
     __abstract__ = True
 
+    id = Column(Integer, primary_key=True, autoincrement=True)
     created_at = Column(DateTime, default=func.now(), nullable=False)
     updated_at = Column(DateTime, default=func.now(), onupdate=func.now(), nullable=False)
     created_by = Column(Integer, nullable=True)

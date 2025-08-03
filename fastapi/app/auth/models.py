@@ -12,7 +12,6 @@ from app.core.models import BaseDBModel
 class EmailToken(BaseDBModel):
     __tablename__ = "email_tokens"
 
-    id = Column(Integer, primary_key=True, index=True)
     user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"))
     token = Column(String, unique=True, nullable=False, index=True)
     is_used = Column(Boolean, default=False)

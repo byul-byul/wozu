@@ -1,43 +1,40 @@
 # fastapi/app/video/schemas.py
 
-# Why it's needed: defines input/output validation for video endpoints.
-# Why it's named that way: common convention for Pydantic schemas.
-# What it does: defines data formats for reading/creating/updating videos.
+# зачем нужен: описывает Pydantic-схемы для валидации и сериализации видео
+# почему так называется: schemas.py — общепринятый файл для Pydantic моделей
+# что делает: определяет входные/выходные данные для API
 
 from pydantic import BaseModel, Field
-from datetime import datetime
 from typing import Optional
 from enum import Enum
 
 class VideoStatus(str, Enum):
     pending = "pending"
-    ready = "ready"
+    processing = "processing"
+    moderation = "moderation"
+    approved = "approved"
     rejected = "rejected"
+    archived = "archived"
 
-class VideoBase(BaseModel):
-    title: str
+class VideoCreate(BaseModel):
+    title: str = Field(..., max_length=100)
     description: Optional[str] = None
     is_public: bool = True
-
-class VideoCreate(VideoBase):
     s3_key: str
 
-class VideoUpdate(BaseModel):
-    title: Optional[str]
-    description: Optional[str]
-    is_public: Optional[bool]
-
-class VideoRead(VideoBase):
+class VideoRead(BaseModel):
     id: int
-    user_id: int
+    title: str
+    description: Optional[str]
+    is_public: bool
     s3_key: str
     thumbnail_url: Optional[str]
-    mime_type: Optional[str]
-    file_size: Optional[int]  # bytes
-    duration: Optional[float]  # seconds
-    status: str  # or VideoStatus if model switched
-    created_at: datetime
-    updated_at: datetime
+    status: VideoStatus
 
     class Config:
         orm_mode = True
+
+class PresignResponse(BaseModel):
+    upload_url: str
+    s3_key: str
+    expires_in: int
