@@ -9,6 +9,7 @@ from app.auth.routes import router as auth_router
 from app.user.routes import router as users_router
 from app.company.routes import router as company_router
 from app.vacancy.routes import router as vacancy_router
+from app.video.routes import router as video_router
 
 app = FastAPI()
 
@@ -16,3 +17,4 @@ app.include_router(auth_router)
 app.include_router(users_router)
 app.include_router(company_router)
 app.include_router(vacancy_router)
+app.include_router(video_router)
