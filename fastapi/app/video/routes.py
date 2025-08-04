@@ -27,5 +27,7 @@ async def upload_video(
     return video
 
 @router.get("/presign-upload/", response_model=PresignResponse)
-async def get_presigned_upload_url():
+async def get_presigned_upload_url(
+    user: User = Depends(get_current_user),
+):
     return generate_presign_url()
